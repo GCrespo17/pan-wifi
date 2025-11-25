@@ -10,7 +10,7 @@ int dataId = 0;
 // Inicializo mi lista de redes para tener 1 con valor 0;
 void wifiListConstructor(WifiList *networks) {
     networks->size = 0;
-    networks->data = NULL;
+    networks->data = malloc(10 * sizeof(WifiData));
     networks->capacity = 10;
 }
 
@@ -28,16 +28,19 @@ WifiData createData(char *ssid, char signal[]) {
 void addNetwork(WifiList *wifiList, WifiData wifiData) {
     // Verifico si el tamaño actual es igual al de lo que puede aguantar
     if (wifiList->size == wifiList->capacity) {
-        // Coloco que mi nueva capacidad sea 50% mayor al de mi tamaño actual
-        int newCapacity = wifiList->size * 1.5;
-        // Creo memoria para varios datos nuevos,
-        WifiData *newData = malloc(newCapacity * sizeof(WifiData));
-        if (!newData) {
+        // Coloco que mi nueva capacidad sea 15% mayor al de mi tamaño actual
+        int newCapacity = wifiList->size * 1.15;
+        // Creo una expansion de memoria, donde se hara una copia de mi puntero
+        // pero con memoria expandida
+        WifiData *memoryExpansion =
+            realloc(wifiList->data, newCapacity * sizeof(WifiList));
+        if (!memoryExpansion) {
             perror("Malloc failed");
             exit(EXIT_FAILURE);
         }
-        // Se le dice que la memoria reservada es de la lista de wifi
-        wifiList->data = newData;
+
+        // Se le asigna la nueva expansion de memoria a mi arreglo wifi data
+        wifiList->data = memoryExpansion;
         // Se expande la capacidad
         wifiList->capacity = newCapacity;
     }
