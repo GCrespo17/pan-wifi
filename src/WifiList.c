@@ -28,8 +28,8 @@ WifiData createData(char *ssid, char signal[]) {
 void addNetwork(WifiList *wifiList, WifiData wifiData) {
     // Verifico si el tamaño actual es igual al de lo que puede aguantar
     if (wifiList->size == wifiList->capacity) {
-        // Coloco que mi nueva capacidad sea 15% mayor al de mi tamaño actual
-        int newCapacity = wifiList->size * 1.15;
+        // Coloco que mi nueva capacidad sea 50% mayor al de mi tamaño actual
+        int newCapacity = wifiList->size * 1.5;
         // Creo una expansion de memoria, donde se hara una copia de mi puntero
         // pero con memoria expandida
         WifiData *memoryExpansion =
