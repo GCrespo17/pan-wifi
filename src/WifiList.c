@@ -33,7 +33,7 @@ void addNetwork(WifiList *wifiList, WifiData wifiData) {
         // Creo una expansion de memoria, donde se hara una copia de mi puntero
         // pero con memoria expandida
         WifiData *memoryExpansion =
-            realloc(wifiList->data, newCapacity * sizeof(WifiList));
+            realloc(wifiList->data, newCapacity * sizeof(WifiData));
         if (!memoryExpansion) {
             perror("Malloc failed");
             exit(EXIT_FAILURE);
