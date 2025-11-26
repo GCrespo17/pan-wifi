@@ -18,7 +18,7 @@ void wifiListConstructor(WifiList *networks) {
 WifiData createData(char *ssid, char signal[]) {
     WifiData data;
     data.id = dataId;
-    data.ssid = ssid;
+    data.ssid = strdup(ssid);
     strcpy(data.signal, signal);
     dataId++;
     return data;
@@ -54,6 +54,9 @@ WifiData getData(WifiList *wifiList, int dataId) {
 }
 
 void freeWifiList(WifiList *wifiList) {
+    for (int i = 0; i < wifiList->size; i++) {
+        free(wifiList->data[i].ssid);
+    }
     free(wifiList->data);
     wifiList->data = NULL;
     wifiList->capacity = 0;
