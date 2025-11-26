@@ -1,4 +1,5 @@
 #include "WifiController.h"
+#include "WifiData.h"
 #include "WifiList.h"
 #include <stdio.h>
 #include <string.h>
@@ -20,7 +21,7 @@ void printAvailableNetworks() {
     pclose(fp);
 }
 
-void fillWifiList() {
+void fillWifiList(WifiList *wifiList) {
     FILE *fp;
     char buffer[1024];
 
@@ -35,8 +36,8 @@ void fillWifiList() {
         char signalScanned[4];
         strcpy(signalScanned, strtok(NULL, ":"));
         // addNetwork(wifiList, createData(ssidScanned, signalScanned));
-        printf("%s", ssidScanned);
-        printf("%s\n", signalScanned);
+        WifiData data = createData(ssidScanned, signalScanned);
+        addNetwork(wifiList, data);
     }
 
     pclose(fp);
