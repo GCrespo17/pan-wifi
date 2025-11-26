@@ -5,6 +5,6 @@
 
 void printAvailableNetworks();
 
-void fillWifiList();
+void fillWifiList(WifiList *wifiList);
 
 #endif
