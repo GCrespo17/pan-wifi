@@ -18,6 +18,19 @@ void wifiListConstructor(WifiList *networks) {
 WifiData createData(char *ssid, char signal[]) {
     WifiData data;
     data.id = dataId;
+    // Se agrego strdup que es duplicar un string
+    /*
+    Esto es lo mismo que hacer un:
+        char *original = "Buenas tardes";
+        char *aux = malloc((strlen(original)+1)*sizeof(char));
+        strcopy(aux, original);
+        free(original);
+    O es lo mismo que hacer un:
+        char *original = "Buenas tardes";
+        size_t len = strlen(original) + 1;
+        char *aux = malloc(len);
+        memcpy(aux, original, len);
+    */
     data.ssid = strdup(ssid);
     strcpy(data.signal, signal);
     dataId++;
