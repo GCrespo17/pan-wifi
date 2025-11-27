@@ -19,13 +19,13 @@ struct winsize getWindowSize() {
 
 int getWifiListPanelLength(){
     int length = getWindowSize().ws_row;
-    length = (int)(length/1.3);
+    length = (int)(length/1.25);
     return length;
 }
 
 int getWifiListPanelWidth(){
     int width = getWindowSize().ws_col;
-    width = (int)(width/1.6);
+    width = (int)(width/1.3);
     return width;
 }
 
@@ -113,15 +113,25 @@ int readInput() {
 }
 
 void showAllNetworks(WifiList *wifiList, int selection) { 
+    int selectionPosition = selection + 3;
+    setCursorPosition(selectionPosition - 1, 2);
+    printf("Networks");
+    setCursorPosition(selectionPosition - 1, getWifiListPanelWidth()/2+1);
+    printf("Signal Porcentage");
+    fflush(stdout);
     for (int i = 0; i < wifiList->size; i++) {
-        setCursorPosition(selection+ i +2, 2);
+        setCursorPosition(selectionPosition+ i, 2);
         if (i < 50) {
             if (selection == i) {
                 printf(INV_TEXT);
-                printf("%-*s\n", getWifiListPanelWidth()-2,wifiList->data[i].ssid);
+                printf("%-*s\n", getWifiListPanelWidth()/2-2,wifiList->data[i].ssid);
+                setCursorPosition(selectionPosition+i, getWifiListPanelWidth()/2+1);
+                printf("%-*s\n", getWifiListPanelWidth()/2-2, wifiList->data[i].signal);
                 printf(UNINV_TEXT);
             } else {
                 printf("%s\n", wifiList->data[i].ssid);
+                setCursorPosition(selectionPosition+i, getWifiListPanelWidth()/2+1);
+                printf("%-*s\n", getWifiListPanelWidth()/2-2, wifiList->data[i].signal);
             }
         }
     }
@@ -129,15 +139,21 @@ void showAllNetworks(WifiList *wifiList, int selection) {
 }
 
 void resetSelection(WifiList *wifiList, int selection) {
-    setCursorPosition(selection+2, 2);
-    printf("%-*s\n",  getWifiListPanelWidth()-2,wifiList->data[selection].ssid);
+    int selectionPosition = selection + 3;
+    setCursorPosition(selectionPosition, 2);
+    printf("%-*s\n",  getWifiListPanelWidth()/2-2,wifiList->data[selection].ssid);
+    setCursorPosition(selectionPosition, getWifiListPanelWidth()/2+1);
+    printf("%-*s\n", getWifiListPanelWidth()/2-2, wifiList->data[selection].signal);
     fflush(stdout);
 }
 
 void updateSelection(WifiList *wifiList, int selection) {
-    setCursorPosition(selection+2,2);
+    int selectionPosition = selection + 3;
+    setCursorPosition(selectionPosition,2);
     printf(INV_TEXT);
-    printf("%-*s\n",  getWifiListPanelWidth()-2,wifiList->data[selection].ssid);
+    printf("%-*s\n",  getWifiListPanelWidth()/2-2,wifiList->data[selection].ssid);
+    setCursorPosition(selectionPosition, getWifiListPanelWidth()/2+1);
+    printf("%-*s\n", getWifiListPanelWidth()/2-2, wifiList->data[selection].signal);
     printf(UNINV_TEXT);
     fflush(stdout);
 }
@@ -177,6 +193,19 @@ void drawPanel() {
         printf(BOX_HORIZONTAL);
         setCursorPosition( altoFinal, i);
         printf(BOX_HORIZONTAL);
+    }
+    fflush(stdout);
+
+    //Lineas verticales en la mitad de mi panel
+    for(int i = altoInicial; i<=altoFinal; i++){
+        setCursorPosition(i, anchoFinal/2);
+        if(i == 1){
+            printf(BOX_T_DOWN);
+        }else if(i==altoFinal){
+            printf(BOX_T_UP);
+        }else{
+            printf(BOX_VERTICAL);
+        }
     }
     fflush(stdout);
 }
