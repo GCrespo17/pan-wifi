@@ -1,10 +1,8 @@
 #include "tui.h"
 #include "WifiList.h"
 #include <asm-generic/ioctls.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -12,12 +10,24 @@
 // Estados de mi terminal
 static struct termios oldTermios, newTermios;
 
+
 struct winsize getWindowSize() {
     struct winsize w;
     ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
     return w;
 }
 
+int getWifiListPanelLength(){
+    int length = getWindowSize().ws_row;
+    length = (int)(length/1.3);
+    return length;
+}
+
+int getWifiListPanelWidth(){
+    int width = getWindowSize().ws_col;
+    width = (int)(width/1.6);
+    return width;
+}
 
 void setCursorPosition(int x, int y){
     printf("\033[%d;%dH", x, y);
@@ -52,7 +62,6 @@ void configureTerminal() {
     printf(HIDE_CURSOR);
     printf(CLR_SCREEN);
     printf(RESET_CURSOR);
-    printf(MV_CURSOR);
     fflush(stdout);
     atexit(resetTerminal);
 }
@@ -103,14 +112,13 @@ int readInput() {
     return finalKey;
 }
 
-void showAllNetworks(WifiList *wifiList, int selection) {
-    printf(MV_CURSOR);
-    fflush(stdout);
+void showAllNetworks(WifiList *wifiList, int selection) { 
     for (int i = 0; i < wifiList->size; i++) {
+        setCursorPosition(selection+ i +2, 2);
         if (i < 50) {
             if (selection == i) {
                 printf(INV_TEXT);
-                printf("%s\n", wifiList->data[i].ssid);
+                printf("%-*s\n", getWifiListPanelWidth()-2,wifiList->data[i].ssid);
                 printf(UNINV_TEXT);
             } else {
                 printf("%s\n", wifiList->data[i].ssid);
@@ -121,17 +129,15 @@ void showAllNetworks(WifiList *wifiList, int selection) {
 }
 
 void resetSelection(WifiList *wifiList, int selection) {
-    printf("\033[%d;1H", selection + 1);
-    printf(CLR_LINE);
-    printf("%s\n", wifiList->data[selection].ssid);
+    setCursorPosition(selection+2, 2);
+    printf("%-*s\n",  getWifiListPanelWidth()-2,wifiList->data[selection].ssid);
     fflush(stdout);
 }
 
 void updateSelection(WifiList *wifiList, int selection) {
-    printf("\033[%d;1H", selection + 1);
-    printf(CLR_LINE);
+    setCursorPosition(selection+2,2);
     printf(INV_TEXT);
-    printf("%s\n", wifiList->data[selection].ssid);
+    printf("%-*s\n",  getWifiListPanelWidth()-2,wifiList->data[selection].ssid);
     printf(UNINV_TEXT);
     fflush(stdout);
 }
@@ -140,9 +146,9 @@ void updateSelection(WifiList *wifiList, int selection) {
 void drawPanel() {
 
     int altoInicial = 1;
-    int anchoInicial = 10;\
-    int altoFinal = getWindowSize().ws_row;
-    int anchoFinal = getWindowSize().ws_col;
+    int anchoInicial = 1;
+    int altoFinal = getWifiListPanelLength();
+    int anchoFinal = getWifiListPanelWidth();
 
     setCursorPosition(altoInicial, anchoInicial);
     printf(BOX_TOP_LEFT);
