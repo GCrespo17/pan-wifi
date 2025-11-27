@@ -16,8 +16,9 @@ int main() {
     static int exitLoop = 0;
 
     configureTerminal();
-    fflush(stdout);
+    drawPanel();
     showAllNetworks(wifiList, selection);
+    // printf(CLR_SCREEN);
     while (!exitLoop) {
         key = readInput();
         if (key == 1) {
@@ -50,5 +51,6 @@ int main() {
 
     freeWifiList(wifiList);
     free(wifiList);
+
     return 0;
 }
