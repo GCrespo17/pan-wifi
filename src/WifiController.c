@@ -32,12 +32,17 @@ void fillWifiList(WifiList *wifiList) {
     }
 
     while (fgets(buffer, sizeof(buffer), fp) != NULL) {
-        char *ssidScanned = strtok(buffer, ":");
-        char signalScanned[4];
-        strcpy(signalScanned, strtok(NULL, ":"));
-        // addNetwork(wifiList, createData(ssidScanned, signalScanned));
-        WifiData data = createData(ssidScanned, signalScanned);
-        addNetwork(wifiList, data);
+        // Salta las wifi vacias
+        if (buffer[0] != ' ' && buffer[0] != ':') {
+            char *ssidScanned = strtok(buffer, ":");
+            char signalScanned[4];
+            strcpy(signalScanned, strtok(NULL, ":"));
+            // Si el nombre es nulo o vacio lo salta
+            if (ssidScanned != NULL && ssidScanned[0] != '\0') {
+                WifiData data = createData(ssidScanned, signalScanned);
+                addNetwork(wifiList, data);
+            }
+        }
     }
 
     pclose(fp);

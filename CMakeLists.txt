@@ -9,9 +9,11 @@ set(SOURCES
     src/main.c
     src/WifiController.c
     src/WifiList.c
+    src/tui.c
 )
 
 set(HEADERS
+    include/tui.h
     include/WifiController.h
     include/WifiList.h
     include/WifiData.h
