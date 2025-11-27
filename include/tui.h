@@ -57,6 +57,18 @@
 #define UNINV_TEXT "\033[27m"
 /***************** END KEYS SEGMENT **************************/
 
+/***************** DRAWING SEGMENT **************************/
+#define BOX_TOP_LEFT "┌"
+#define BOX_TOP_RIGHT "┐"
+#define BOX_BOTTOM_LEFT "└"
+#define BOX_BOTTOM_RIGHT "┘"
+#define BOX_HORIZONTAL "─"
+#define BOX_VERTICAL "│"
+#define BOX_T_DOWN "┬"
+#define BOX_T_UP "┴"
+#define BOX_T_RIGHT "├"
+#define BOX_T_LEFT "┤"
+
 void configureTerminal();
 void resetTerminal();
 int readInput();
@@ -64,5 +76,6 @@ int readkey(char *buffer, int key);
 void updateSelection(WifiList *wifiList, int selection);
 void showAllNetworks(WifiList *wifiList, int selection);
 void resetSelection(WifiList *wifiList, int selection);
+void drawPanel();
 
 #endif
