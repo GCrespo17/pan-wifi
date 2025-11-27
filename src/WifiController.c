@@ -35,9 +35,10 @@ void fillWifiList(WifiList *wifiList) {
         char *ssidScanned = strtok(buffer, ":");
         char signalScanned[4];
         strcpy(signalScanned, strtok(NULL, ":"));
-        // addNetwork(wifiList, createData(ssidScanned, signalScanned));
-        WifiData data = createData(ssidScanned, signalScanned);
-        addNetwork(wifiList, data);
+        if (ssidScanned != NULL && ssidScanned[0] != '\0') {
+            WifiData data = createData(ssidScanned, signalScanned);
+            addNetwork(wifiList, data);
+        }
     }
 
     pclose(fp);
