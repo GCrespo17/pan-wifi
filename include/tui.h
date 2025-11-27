@@ -39,7 +39,6 @@
 #define CLR_LINE "\033[K"
 // Mueve el cursor a 0,0
 #define RESET_CURSOR "\033[1;1H"
-#define MV_CURSOR "\033[1;1H"
 #define CLR_AND_HOME "\033[2J\033[H" // Mueve el cursor y limpia
 /***************** END CURSOR SEGMENT **************************/
 
