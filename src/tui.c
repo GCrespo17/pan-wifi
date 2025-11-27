@@ -1,9 +1,11 @@
 #include "tui.h"
 #include "WifiList.h"
+#include <asm-generic/ioctls.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -119,5 +121,52 @@ void updateSelection(WifiList *wifiList, int selection) {
     printf(INV_TEXT);
     printf("%s\n", wifiList->data[selection].ssid);
     printf(UNINV_TEXT);
+    fflush(stdout);
+}
+
+struct winsize getSize() {
+    struct winsize w;
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
+    return w;
+}
+
+void drawPanel() {
+    struct winsize size = getSize();
+    int row = size.ws_row;
+    int column = size.ws_col;
+
+    int altoInicial = 1;
+    int anchoInicial = 15;
+    int altoFinal = row;
+    int anchoFinal = column;
+
+    printf("\033[%d;%dH", altoInicial, anchoInicial);
+    printf(BOX_TOP_LEFT);
+    fflush(stdout);
+    printf("\033[%d;%dH", altoFinal, anchoFinal);
+    printf(BOX_BOTTOM_RIGHT);
+    fflush(stdout);
+    printf("\033[%d;%dH", altoInicial, anchoFinal);
+    printf(BOX_TOP_RIGHT);
+    fflush(stdout);
+    printf("\033[%d;%dH", altoFinal, anchoInicial);
+    printf(BOX_BOTTOM_LEFT);
+    fflush(stdout);
+
+    // Lineas verticales de la izquierda y la derecha
+    for (int i = altoInicial + 1; i <= altoFinal - 1; i++) {
+        printf("\033[%d;%dH", i, anchoInicial);
+        printf(BOX_VERTICAL);
+        printf("\033[%d;%dH", i, anchoFinal);
+        printf(BOX_VERTICAL);
+    }
+    fflush(stdout);
+
+    for (int i = anchoInicial + 1; i <= anchoFinal - 1; i++) {
+        printf("\033[%d;%dH", altoInicial, i);
+        printf(BOX_HORIZONTAL);
+        printf("\033[%d;%dH", altoFinal, i);
+        printf(BOX_HORIZONTAL);
+    }
     fflush(stdout);
 }
