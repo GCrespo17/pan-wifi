@@ -72,6 +72,8 @@
 
 struct winsize getWindowSize();
 void setCursorPosition(int x, int y);
+int getWifiListPanelLength();
+int getWifiListPanelWidth();
 void configureTerminal();
 void resetTerminal();
 int readInput();
