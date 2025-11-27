@@ -12,6 +12,10 @@
 // Estados de mi terminal
 static struct termios oldTermios, newTermios;
 
+void setCursorPosition(int x, int y){
+    printf("\033[%d;%dH", x, y);
+}
+
 void resetTerminal() {
     printf(CLR_SCREEN);
     printf(RESET_CURSOR);
@@ -140,32 +144,32 @@ void drawPanel() {
     int altoFinal = row;
     int anchoFinal = column;
 
-    printf("\033[%d;%dH", altoInicial, anchoInicial);
+    setCursorPosition(altoInicial, anchoInicial);
     printf(BOX_TOP_LEFT);
     fflush(stdout);
-    printf("\033[%d;%dH", altoFinal, anchoFinal);
+    setCursorPosition(altoFinal, anchoFinal);
     printf(BOX_BOTTOM_RIGHT);
     fflush(stdout);
-    printf("\033[%d;%dH", altoInicial, anchoFinal);
+    setCursorPosition( altoInicial, anchoFinal);
     printf(BOX_TOP_RIGHT);
     fflush(stdout);
-    printf("\033[%d;%dH", altoFinal, anchoInicial);
+    setCursorPosition(altoFinal, anchoInicial);
     printf(BOX_BOTTOM_LEFT);
     fflush(stdout);
 
     // Lineas verticales de la izquierda y la derecha
     for (int i = altoInicial + 1; i <= altoFinal - 1; i++) {
-        printf("\033[%d;%dH", i, anchoInicial);
+        setCursorPosition( i, anchoInicial);
         printf(BOX_VERTICAL);
-        printf("\033[%d;%dH", i, anchoFinal);
+        setCursorPosition( i, anchoFinal);
         printf(BOX_VERTICAL);
     }
     fflush(stdout);
 
     for (int i = anchoInicial + 1; i <= anchoFinal - 1; i++) {
-        printf("\033[%d;%dH", altoInicial, i);
+        setCursorPosition( altoInicial, i);
         printf(BOX_HORIZONTAL);
-        printf("\033[%d;%dH", altoFinal, i);
+        setCursorPosition( altoFinal, i);
         printf(BOX_HORIZONTAL);
     }
     fflush(stdout);

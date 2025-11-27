@@ -38,7 +38,7 @@
 #define CLR_SCREEN "\033[2J"
 #define CLR_LINE "\033[K"
 // Mueve el cursor a 0,0
-#define RESET_CURSOR "\033[0;0H"
+#define RESET_CURSOR "\033[1;1H"
 #define MV_CURSOR "\033[1;1H"
 #define CLR_AND_HOME "\033[2J\033[H" // Mueve el cursor y limpia
 /***************** END CURSOR SEGMENT **************************/
@@ -69,6 +69,7 @@
 #define BOX_T_RIGHT "├"
 #define BOX_T_LEFT "┤"
 
+void setCursorPosition(int x, int y);
 void configureTerminal();
 void resetTerminal();
 int readInput();
