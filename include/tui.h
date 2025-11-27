@@ -69,6 +69,9 @@
 #define BOX_T_RIGHT "├"
 #define BOX_T_LEFT "┤"
 
+
+
+struct winsize getWindowSize();
 void setCursorPosition(int x, int y);
 void configureTerminal();
 void resetTerminal();

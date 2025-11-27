@@ -12,9 +12,17 @@
 // Estados de mi terminal
 static struct termios oldTermios, newTermios;
 
+struct winsize getWindowSize() {
+    struct winsize w;
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
+    return w;
+}
+
+
 void setCursorPosition(int x, int y){
     printf("\033[%d;%dH", x, y);
 }
+
 
 void resetTerminal() {
     printf(CLR_SCREEN);
@@ -128,21 +136,13 @@ void updateSelection(WifiList *wifiList, int selection) {
     fflush(stdout);
 }
 
-struct winsize getSize() {
-    struct winsize w;
-    ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-    return w;
-}
 
 void drawPanel() {
-    struct winsize size = getSize();
-    int row = size.ws_row;
-    int column = size.ws_col;
 
     int altoInicial = 1;
-    int anchoInicial = 15;
-    int altoFinal = row;
-    int anchoFinal = column;
+    int anchoInicial = 10;\
+    int altoFinal = getWindowSize().ws_row;
+    int anchoFinal = getWindowSize().ws_col;
 
     setCursorPosition(altoInicial, anchoInicial);
     printf(BOX_TOP_LEFT);
