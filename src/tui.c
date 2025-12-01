@@ -122,9 +122,9 @@ void showAllNetworks(WifiList *wifiList, int selection) {
     setCursorPosition(selectionPosition - 1, getWifiListPanelWidth() / 2 + 1);
     printf("Signal Porcentage");
     fflush(stdout);
-    for (int i = 0; i < 35; i++) {
-        setCursorPosition(selectionPosition + i, 2);
+    for (int i = 0; i < wifiList->size; i++) {
         if (i < 50) {
+            setCursorPosition(selectionPosition + i, 2);
             if (selection == i) {
                 printf(INV_TEXT);
                 printf("%-*s\n", getWifiListPanelWidth() / 2 - 2,
