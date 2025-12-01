@@ -27,5 +27,3 @@ cmake --build build
 
 ./build/WifiTui
 ```
-
-```
