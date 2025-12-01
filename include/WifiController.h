@@ -7,4 +7,7 @@ void printAvailableNetworks();
 
 void fillWifiList(WifiList *wifiList);
 
+int connectNetwork(char *ssid, char *password);
+
+bool isDangerousInput(const char *input);
 #endif

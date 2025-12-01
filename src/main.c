@@ -14,19 +14,20 @@ int main() {
     fillWifiList(wifiList);
 
     static int exitLoop = 0;
-
     configureTerminal();
     drawPanel();
     showAllNetworks(wifiList, selection);
     // printf(CLR_SCREEN);
     while (!exitLoop) {
         key = readInput();
+        // Flecha abajo
         if (key == 1) {
             if (selection > 0) {
                 resetSelection(wifiList, selection);
                 selection--;
             }
         }
+        // Flecha arriba
         if (key == 2) {
             if (selection < wifiList->size - 1) {
                 resetSelection(wifiList, selection);
@@ -37,8 +38,11 @@ int main() {
             printf("Right\n");
         if (key == 4)
             printf("Left\n");
-        if (key == 5)
-            printf("Enter\n");
+        // Enter
+        if (key == 5) {
+            setPassword(wifiList->data[selection].ssid);
+        }
+        // q
         if (key == 6) {
             printf("Quit\n");
             exitLoop = 1;

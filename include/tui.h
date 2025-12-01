@@ -68,13 +68,12 @@
 #define BOX_T_RIGHT "├"
 #define BOX_T_LEFT "┤"
 
-
-
 struct winsize getWindowSize();
 void setCursorPosition(int x, int y);
 int getWifiListPanelLength();
 int getWifiListPanelWidth();
 void configureTerminal();
+void normalInputMode();
 void resetTerminal();
 int readInput();
 int readkey(char *buffer, int key);
@@ -82,5 +81,6 @@ void updateSelection(WifiList *wifiList, int selection);
 void showAllNetworks(WifiList *wifiList, int selection);
 void resetSelection(WifiList *wifiList, int selection);
 void drawPanel();
+void setPassword(char *ssid);
 
 #endif
